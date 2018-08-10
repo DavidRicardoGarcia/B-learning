@@ -1,0 +1,16 @@
+Undefined function or variable 'syms'.
+
+Error in GUI>update_Callback (line 164)
+
+
+Error in gui_mainfcn (line 95)
+
+
+Error in GUI (line 42)
+
+
+Error in matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)GUI('update_Callback',hObject,eventdata,guidata(hObject))
+
+Error using waitforallfiguresclosed (line 9)
+Error while evaluating UIControl Callback.
+

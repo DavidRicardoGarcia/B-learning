@@ -18,16 +18,20 @@
 disp('declarando variables simbolicas...')
 syms t n;
 
-w_f = 60*2*pi; % frecuencia angular fundamental.
+w_f = 120*2*pi; % frecuencia angular fundamental.
 
-N = 10; % numero de armonicos deseados
-ft = sign(sin(t*w_f)); % senal periodica que se desea descomponer
+N = 7; % numero de armonicos deseados
+ft = 2*sin(t*w_f)^12; % senal periodica que se desea descomponer
 T_2 = (2*pi/(2*w_f));
 
 disp('calculando componentes en funcion de n...')
 C_n = (w_f/(2*pi))*int( ft*exp(-1i*w_f*n*t), t, -T_2, T_2);
 
-H = vpa(subs(C_n, 1:1:N), 4); % se evalua la funcion para obtener un vector
+%H = vpa(subs(C_n, 1:1:N), 4); % se evalua la funcion para obtener un vector
+H=zeros(1, N);
+for x=1:1:N
+    H(x) = vpa(limit(C_n, n, x), 4); % se evalua la funcion para obtener un vector
+end
 % con las componentes compljeas
 
 time_interval = [0, 2*pi/w_f]; %  intervalo de tiempo en que se graficaran los armonicos
@@ -48,11 +52,18 @@ for x=2:1:N
     fplot3(t, x+(t*0), Harm_v(x), time_interval);
 end
 
+% Se calcula el nivel dc 
+dc = vpa(limit(C_n, n, 0), 4)+(t*0);
+
+fplot3(t, 0+(t*0), dc, time_interval);
+
 % se grafica la suma de los armonicos, es decir, Una aproximacion 
 % truncada de la señal original. (recuerdese que la señal original 
 % solo se obtiene al realizar la suma infinita)
-fplot3(t, (t*0), sum(Harm_v), time_interval);
-fplot3(t, -1+(t*0), ft, time_interval);
+fplot3(t, -1+(t*0), sum(Harm_v)+dc, time_interval);
+
+% se graica la señal original para poder comparar.
+fplot3(t, -2+(t*0), ft, time_interval);
 
 %grid off; % se quitan las cuaddriculas
 
