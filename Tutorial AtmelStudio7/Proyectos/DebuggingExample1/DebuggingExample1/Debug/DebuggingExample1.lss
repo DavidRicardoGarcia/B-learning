@@ -1,0 +1,159 @@
+
+DebuggingExample1.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  00000134  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000000e0  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  00000134  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000164  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000028  00000000  00000000  000001a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000000a8  00000000  00000000  000001c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000072  00000000  00000000  00000270  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000058  00000000  00000000  000002e2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000048  00000000  00000000  0000033c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000001a8  00000000  00000000  00000384  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    0000007f  00000000  00000000  0000052c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000030  00000000  00000000  000005ab  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 38 00 	jmp	0x70	; 0x70 <__ctors_end>
+   4:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+   8:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+   c:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  10:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  14:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  18:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  1c:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  20:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  24:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  28:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  2c:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  30:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  34:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  38:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  3c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__vector_15>
+  40:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  44:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  48:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  4c:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  50:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  54:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  58:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  5c:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  60:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  64:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  68:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+  6c:	0c 94 42 00 	jmp	0x84	; 0x84 <__bad_interrupt>
+
+00000070 <__ctors_end>:
+  70:	11 24       	eor	r1, r1
+  72:	1f be       	out	0x3f, r1	; 63
+  74:	cf ef       	ldi	r28, 0xFF	; 255
+  76:	d4 e0       	ldi	r29, 0x04	; 4
+  78:	de bf       	out	0x3e, r29	; 62
+  7a:	cd bf       	out	0x3d, r28	; 61
+  7c:	0e 94 44 00 	call	0x88	; 0x88 <main>
+  80:	0c 94 6e 00 	jmp	0xdc	; 0xdc <_exit>
+
+00000084 <__bad_interrupt>:
+  84:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000088 <main>:
+
+
+
+int main(void)
+{
+	DDRC |= _BV(0); // se establece el pin PC0 como salida digital
+  88:	a0 9a       	sbi	0x14, 0	; 20
+	PORTC |= _BV(0);
+  8a:	a8 9a       	sbi	0x15, 0	; 21
+	
+	sei(); // funcion que configura registros para habilitar interrupciones.
+  8c:	78 94       	sei
+	TCNT1 = COUNTER_INIT; // se inicializa el temporizador en 616630
+  8e:	8e eb       	ldi	r24, 0xBE	; 190
+  90:	90 ef       	ldi	r25, 0xF0	; 240
+  92:	9d bd       	out	0x2d, r25	; 45
+  94:	8c bd       	out	0x2c, r24	; 44
+	TIMSK |= _BV(7); // se habilita la interrupcion de overflow en temporizador 1
+  96:	89 b7       	in	r24, 0x39	; 57
+  98:	80 68       	ori	r24, 0x80	; 128
+  9a:	89 bf       	out	0x39, r24	; 57
+	TCCR1B |= _BV(2) | _BV(0); // se establece fuente de reloj con preescalamiento de 1024
+  9c:	8e b5       	in	r24, 0x2e	; 46
+  9e:	85 60       	ori	r24, 0x05	; 5
+  a0:	8e bd       	out	0x2e, r24	; 46
+
+
+
+
+int main(void)
+{
+  a2:	30 e1       	ldi	r19, 0x10	; 16
+  a4:	27 e2       	ldi	r18, 0x27	; 39
+  a6:	83 2f       	mov	r24, r19
+  a8:	92 2f       	mov	r25, r18
+  aa:	01 97       	sbiw	r24, 0x01	; 1
+    {
+		// este incremento de la variable "a" no tiene ninguna funcionalidad
+		// solo se agrega para mostrar la observacion de variables durante el 
+		// proceso de debugging
+		a++;
+		if(a == 10000){
+  ac:	f1 f7       	brne	.-4      	; 0xaa <main+0x22>
+  ae:	fb cf       	rjmp	.-10     	; 0xa6 <main+0x1e>
+
+000000b0 <__vector_15>:
+		}
+    }
+}
+
+// rutina de interrupcion cuando se desborda el temporizador 1
+ISR(TIMER1_OVF_vect){
+  b0:	1f 92       	push	r1
+  b2:	0f 92       	push	r0
+  b4:	0f b6       	in	r0, 0x3f	; 63
+  b6:	0f 92       	push	r0
+  b8:	11 24       	eor	r1, r1
+  ba:	8f 93       	push	r24
+  bc:	9f 93       	push	r25
+	TCNT1 = COUNTER_INIT; // se recarga nuevamente el temporizador en 61630
+  be:	8e eb       	ldi	r24, 0xBE	; 190
+  c0:	90 ef       	ldi	r25, 0xF0	; 240
+  c2:	9d bd       	out	0x2d, r25	; 45
+  c4:	8c bd       	out	0x2c, r24	; 44
+	PORTC ^= _BV(0); // se articula el valor del bit 0 en el puerto C.
+  c6:	95 b3       	in	r25, 0x15	; 21
+  c8:	81 e0       	ldi	r24, 0x01	; 1
+  ca:	89 27       	eor	r24, r25
+  cc:	85 bb       	out	0x15, r24	; 21
+}
+  ce:	9f 91       	pop	r25
+  d0:	8f 91       	pop	r24
+  d2:	0f 90       	pop	r0
+  d4:	0f be       	out	0x3f, r0	; 63
+  d6:	0f 90       	pop	r0
+  d8:	1f 90       	pop	r1
+  da:	18 95       	reti
+
+000000dc <_exit>:
+  dc:	f8 94       	cli
+
+000000de <__stop_program>:
+  de:	ff cf       	rjmp	.-2      	; 0xde <__stop_program>
