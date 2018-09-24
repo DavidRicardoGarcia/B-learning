@@ -15,9 +15,6 @@
 // #define _BV( bit ) ( 1<<(bit) ) // macro para facilitar la escritura de los comandos para leer y escribir sobre registros del microcontrolador.
 #define COUNTER_INIT 61630 // valor a partir del cual debe empezar a contar el temporizador.
 
-
-
-
 int main(void)
 {
 	DDRB |= _BV(1); // se establece el pin PB1 como salida digital
@@ -37,5 +34,6 @@ int main(void)
 // rutina de interrupcion cuando se desborda el temporizador 1
 ISR(TIMER1_OVF_vect){
 	TCNT1 = COUNTER_INIT; // se recarga nuevamente el temporizador en 61630
-	PORTB ^= _BV(1); // se articula el valor del bit 1 en el puerto B.
+	PORTB ^= _BV(1);
 }
+

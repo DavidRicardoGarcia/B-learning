@@ -65,8 +65,8 @@ Disassembly of section .text:
   36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
 
 00000038 <main>:
-
-
+// #define _BV( bit ) ( 1<<(bit) ) // macro para facilitar la escritura de los comandos para leer y escribir sobre registros del microcontrolador.
+#define COUNTER_INIT 61630 // valor a partir del cual debe empezar a contar el temporizador.
 
 int main(void)
 {
@@ -88,10 +88,10 @@ int main(void)
   4a:	8e b5       	in	r24, 0x2e	; 46
   4c:	85 60       	ori	r24, 0x05	; 5
   4e:	8e bd       	out	0x2e, r24	; 46
+
+#define F_CPU 4000000UL //(1Mhz) macro para definir la frecuencia de trabajo del microcontrolador. se usa en la implementacion del comando delay.
+// #define _BV( bit ) ( 1<<(bit) ) // macro para facilitar la escritura de los comandos para leer y escribir sobre registros del microcontrolador.
 #define COUNTER_INIT 61630 // valor a partir del cual debe empezar a contar el temporizador.
-
-
-
 
 int main(void)
   50:	ff cf       	rjmp	.-2      	; 0x50 <__SREG__+0x11>
@@ -115,11 +115,12 @@ ISR(TIMER1_OVF_vect){
   62:	90 ef       	ldi	r25, 0xF0	; 240
   64:	9d bd       	out	0x2d, r25	; 45
   66:	8c bd       	out	0x2c, r24	; 44
-	PORTB ^= _BV(1); // se articula el valor del bit 1 en el puerto B.
+	PORTB ^= _BV(1);
   68:	98 b3       	in	r25, 0x18	; 24
   6a:	82 e0       	ldi	r24, 0x02	; 2
   6c:	89 27       	eor	r24, r25
   6e:	88 bb       	out	0x18, r24	; 24
+}
   70:	9f 91       	pop	r25
   72:	8f 91       	pop	r24
   74:	0f 90       	pop	r0
