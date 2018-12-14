@@ -1,3 +1,4 @@
+
 % En este script se genera una grafica en R3 que permite relacionar
 % cada harmonico en el tiempo como curva parametrica en un eje y en
 % otro eje la amplitud  en el dominio de la frecuencia.
@@ -21,7 +22,7 @@ syms t n;
 w_f = 120*2*pi; % frecuencia angular fundamental.
 
 N = 7; % numero de armonicos deseados
-ft = 2*sin(t*w_f)^12; % senal periodica que se desea descomponer
+ft = 10*sin(t*w_f)^12; % senal periodica que se desea descomponer
 T_2 = (2*pi/(2*w_f));
 
 disp('calculando componentes en funcion de n...')
