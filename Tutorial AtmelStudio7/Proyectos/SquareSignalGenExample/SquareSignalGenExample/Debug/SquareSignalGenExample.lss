@@ -1,0 +1,96 @@
+
+SquareSignalGenExample.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000003e  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000092  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000092  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000000c4  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  00000100  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000112  00000000  00000000  00000120  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000000d3  00000000  00000000  00000232  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000011f  00000000  00000000  00000305  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  00000424  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000001f8  00000000  00000000  00000448  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000010  00000000  00000000  00000640  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	0e c0       	rjmp	.+28     	; 0x20 <__bad_interrupt>
+   4:	0d c0       	rjmp	.+26     	; 0x20 <__bad_interrupt>
+   6:	0c c0       	rjmp	.+24     	; 0x20 <__bad_interrupt>
+   8:	0b c0       	rjmp	.+22     	; 0x20 <__bad_interrupt>
+   a:	0a c0       	rjmp	.+20     	; 0x20 <__bad_interrupt>
+   c:	09 c0       	rjmp	.+18     	; 0x20 <__bad_interrupt>
+   e:	08 c0       	rjmp	.+16     	; 0x20 <__bad_interrupt>
+  10:	07 c0       	rjmp	.+14     	; 0x20 <__bad_interrupt>
+  12:	06 c0       	rjmp	.+12     	; 0x20 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+  1c:	02 d0       	rcall	.+4      	; 0x22 <main>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <_exit>
+
+00000020 <__bad_interrupt>:
+  20:	ef cf       	rjmp	.-34     	; 0x0 <__vectors>
+
+00000022 <main>:
+
+int main(void)
+{
+    
+	// se pone el pin 3 como salida digital.
+	DDRB |= _BV(3);
+  22:	bb 9a       	sbi	0x17, 3	; 23
+	
+    while (1) 
+    {
+		// retardo de n milisegundos
+		_delay_ms(5);
+		PORTB ^= _BV(3);
+  24:	98 e0       	ldi	r25, 0x08	; 8
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  26:	e1 ef       	ldi	r30, 0xF1	; 241
+  28:	fb e2       	ldi	r31, 0x2B	; 43
+  2a:	31 97       	sbiw	r30, 0x01	; 1
+  2c:	f1 f7       	brne	.-4      	; 0x2a <main+0x8>
+  2e:	00 c0       	rjmp	.+0      	; 0x30 <main+0xe>
+  30:	00 00       	nop
+  32:	88 b3       	in	r24, 0x18	; 24
+  34:	89 27       	eor	r24, r25
+  36:	88 bb       	out	0x18, r24	; 24
+
+
+#include <avr/io.h>
+#include <util/delay.h>
+
+int main(void)
+  38:	f6 cf       	rjmp	.-20     	; 0x26 <main+0x4>
+
+0000003a <_exit>:
+  3a:	f8 94       	cli
+
+0000003c <__stop_program>:
+  3c:	ff cf       	rjmp	.-2      	; 0x3c <__stop_program>
