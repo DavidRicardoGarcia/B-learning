@@ -43,7 +43,7 @@ void loop() {
   Serial.print(buttonState);
   //delay(20);
   a='e';
-  buttonState=0.25;
+  buttonState=random(100)/100.0;
   Serial.print(a);
   Serial.print(buttonState);
  // delay(20);
