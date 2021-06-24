@@ -1,4 +1,4 @@
 # B-learning
 
-En este repositorio se encuentra todo el material relacionado con la plataforma didactica online para B-learning.
-La informacion correspondiente a los otros subproyectos como el video proyector, etc estan en otros repositorios a parte.
+In this repository you will find all the material related to the online didactic platform for B-learning.
+The information corresponding to the other subprojects such as the video projector, etc. are in other repositories apart.
